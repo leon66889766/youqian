@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>捷配邮签生成器 - 版式一</title>
+    <style>
+        .header-banner {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        .header-banner h1 {
+            margin: 0;
+            color: #333;
+        }
+        .language-switch {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .switch-btn {
+            padding: 8px 16px;
+            margin: 0 5px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .switch-btn:hover {
+            background: #45a049;
+        }
+        .switch-btn.active {
+            background: #3d8b40;
+            font-weight: bold;
+        }
+        .version-container {
+            display: none;
+        }
+        .version-container.active {
+            display: block;
+        }
+        .upload-section, .info-section {max-width:800px;margin:20px auto;padding:20px;border:1px solid #eee;border-radius:8px;}
+        .upload-item, .info-item {margin-bottom:15px;padding:10px;border:1px dashed #ccc;border-radius:4px;}
+        .upload-item label, .info-item label {display:block;font-weight:bold;margin-bottom:5px;}
+        .upload-item input, .info-item input {width:100%;padding:8px;box-sizing:border-box;}
+        .preview {max-width:200px;margin-top:10px;display:none;}
+        .signature-preview {max-width:680px;margin:30px auto;border:1px solid #f5f5f5;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+        .email-container {width:100%;background:#fff;}
+        .header {display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#fff;border-bottom:1px solid #f5f5f5;}
+        .header-left-logo {width:60px;height:auto;}
+        .header-right-jiepei {width:220px;height:auto;opacity:0.4;}
+        .content-area {padding:30px 40px;background:#fff;min-height:380px;}
+        .signature {padding:0 20px 20px;position:relative;}
+        .signature-top {display:flex;align-items:center;margin-bottom:10px;}
+        .signature-left-logo {width:100px;height:auto;margin-right:20px;}
+        .signature-avatar-wrap {width:80px;height:80px;border-radius:50%;overflow:hidden;margin-right:20px;}
+        .signature-avatar {width:100%;height:100%;object-fit:cover;}
+        .signature-info h2 {margin:0;font-size:16px;color:#333;}
+        .signature-info p {margin:4px 0;font-size:13px;color:#666;}
+        .signature-right-bg-logo {position:absolute;top:20px;right:20px;width:180px;height:auto;opacity:0.3;z-index:0;}
+        .signature-banner {width:100%;max-width:640px;height:auto;border-radius:4px;margin-top:10px;z-index:1;position:relative;}
+        .code-area {display:flex;align-items:center;gap:10px;}
+        #copyBtnZh, #copyBtnEn {padding:8px 16px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;}
+        #copyBtnZh:hover, #copyBtnEn:hover {background:#45a049;}
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <h1>版式一</h1>
+    </div>
+    
+    <div class="language-switch">
+        <button class="switch-btn active" data-version="zh">中文版</button>
+        <button class="switch-btn" data-version="en">English</button>
+    </div>
+
+    <!-- 中文版内容 -->
+    <div id="zh-version" class="version-container active">
+        <!-- 个人信息修改区 -->
+        <div class="info-section">
+            <h2>步骤1：修改个人信息</h2>
+            <div class="info-item">
+                <label>姓名</label>
+                <input type="text" id="zh-name" value="范冰晨">
+            </div>
+            <div class="info-item">
+                <label>职位</label>
+                <input type="text" id="zh-job" value="品牌平面设计师">
+            </div>
+            <div class="info-item">
+                <label>电话</label>
+                <input type="text" id="zh-phone" value="+86138-0000-0000">
+            </div>
+            <div class="info-item">
+                <label>邮箱</label>
+                <input type="text" id="zh-email" value="zhangsan@company.com">
+            </div>
+            <div class="info-item">
+                <label>地址</label>
+                <input type="text" id="zh-address" value="浙江省杭州市拱墅区新天地商务中心2幢西楼201室">
+            </div>
+        </div>
+
+        <!-- 图片上传区 -->
+        <div class="upload-section">
+            <h2>步骤2：上传/使用默认元素</h2>
+            <div class="upload-item">
+                <label>1. 上方左侧Logo（默认：https://www.img520.com/JEczek.png）</label>
+                <input type="file" id="zh-logo1" accept="image/png,image/jpg">
+                <img id="zh-preview1" class="preview" alt="上方左侧Logo预览">
+            </div>
+            <div class="upload-item">
+                <label>2. 上方右侧带透明度JIEPEI（默认：https://www.img520.com/bCH2bq.png）</label>
+                <input type="file" id="zh-logo2" accept="image/png,image/jpg">
+                <img id="zh-preview2" class="preview" alt="上方右侧JIEPEI预览">
+            </div>
+            <div class="upload-item">
+                <label>3. 下方左侧Logo（默认：https://www.img520.com/PpeGI7.png）</label>
+                <input type="file" id="zh-logo3" accept="image/png,image/jpg">
+                <img id="zh-preview3" class="preview" alt="下方左侧Logo预览">
+            </div>
+            <div class="upload-item">
+                <label>4. 下方右侧带透明度捷配（默认：https://www.img520.com/wKgZOx.png）</label>
+                <input type="file" id="zh-logo4" accept="image/png,image/jpg">
+                <img id="zh-preview4" class="preview" alt="下方右侧透明捷配预览">
+            </div>
+            <div class="upload-item">
+                <label>5. 底部Banner（默认：https://www.img520.com/J9gaD2.png）</label>
+                <input type="file" id="zh-banner" accept="image/png,image/jpg">
+                <img id="zh-previewBanner" class="preview" alt="底部Banner预览">
+            </div>
+        </div>
+
+        <!-- 邮签预览+代码区 -->
+        <div class="signature-preview">
+            <h2 style="text-align:center;margin:10px 0;">步骤3：邮签预览</h2>
+            <div class="email-container">
+                <div class="header">
+                    <img id="zh-headerLogo1" src="https://www.img520.com/JEczek.png" alt="上方左侧Logo" class="header-left-logo">
+                    <img id="zh-headerLogo2" src="https://www.img520.com/bCH2bq.png" alt="上方右侧JIEPEI" class="header-right-jiepei">
+                </div>
+                <div class="content-area" style="color:#999;">此处填写邮件正文</div>
+                <div class="signature">
+                    <img id="zh-signatureLogo4" src="https://www.img520.com/wKgZOx.png" alt="下方右侧透明捷配" class="signature-right-bg-logo">
+                    <div class="signature-top">
+                        <img id="zh-signatureLogo3" src="https://www.img520.com/PpeGI7.png" alt="下方左侧Logo" class="signature-left-logo">
+                        <div class="signature-info" id="zh-previewInfo">
+                            <h2>范冰晨</h2>
+                            <p>品牌平面设计师</p>
+                            <p>电话: +86138-0000-0000</p>
+                            <p>邮箱: zhangsan@company.com</p>
+                            <p>地址: 浙江省杭州市拱墅区新天地商务中心2幢西楼201室</p>
+                        </div>
+                    </div>
+                    <img id="zh-signatureBanner" src="https://www.img520.com/J9gaD2.png" alt="底部Banner" class="signature-banner">
+                </div>
+            </div>
+
+            <div style="padding:20px;">
+                <h3>步骤4：复制邮签代码</h3>
+                <div class="code-area">
+                    <textarea id="zh-finalCode" style="width:100%;height:200px;padding:10px;box-sizing:border-box;font-family:monospace;" readonly></textarea>
+                    <button id="copyBtnZh">一键复制</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 英文版内容 -->
+    <div id="en-version" class="version-container">
+        <!-- 个人信息修改区 -->
+        <div class="info-section">
+            <h2>Step 1: Modify Personal Information</h2>
+            <div class="info-item">
+                <label>Name (English)</label>
+                <input type="text" id="en-name" value="FAN BING CHENG">
+            </div>
+            <div class="info-item">
+                <label>Position (English)</label>
+                <input type="text" id="en-job" value="Brand Graphic Designer">
+            </div>
+            <div class="info-item">
+                <label>Website</label>
+                <input type="text" id="en-website" value="www.jiepei.com">
+            </div>
+            <div class="info-item">
+                <label>Phone</label>
+                <input type="text" id="en-phone" value="+86138-0000-0000">
+            </div>
+            <div class="info-item">
+                <label>Email</label>
+                <input type="text" id="en-email" value="zhangsan@company.com">
+            </div>
+            <div class="info-item">
+                <label>Address (English)</label>
+                <input type="text" id="en-address" value="Room 1201,West Building of Block 2,Xintiandi Business Center,Gongshu District,Hangzhou City">
+            </div>
+        </div>
+
+        <!-- 图片上传区 -->
+        <div class="upload-section">
+            <h2>Step 2: Upload/Use Default Elements</h2>
+            <div class="upload-item">
+                <label>1. Top Left Logo (Default: https://www.img520.com/JEczek.png)</label>
+                <input type="file" id="en-logo1" accept="image/png,image/jpg">
+                <img id="en-preview1" class="preview" alt="Top Left Logo Preview">
+            </div>
+            <div class="upload-item">
+                <label>2. Top Right JIEPEI with Transparency (Default: https://www.img520.com/bCH2bq.png)</label>
+                <input type="file" id="en-logo2" accept="image/png,image/jpg">
+                <img id="en-preview2" class="preview" alt="Top Right JIEPEI Preview">
+            </div>
+            <div class="upload-item">
+                <label>3. Bottom Avatar (Default: https://www.img520.com/6I8yI8.png, automatically cropped to circle)</label>
+                <input type="file" id="en-avatar" accept="image/png,image/jpg">
+                <img id="en-previewAvatar" class="preview" alt="Avatar Preview">
+            </div>
+            <div class="upload-item">
+                <label>4. Bottom Banner (Default: https://www.img520.com/UVztAG.png)</label>
+                <input type="file" id="en-banner" accept="image/png,image/jpg">
+                <img id="en-previewBanner" class="preview" alt="Bottom Banner Preview">
+            </div>
+        </div>
+
+        <!-- 邮签预览+代码区 -->
+        <div class="signature-preview">
+            <h2 style="text-align:center;margin:10px 0;">Step 3: Signature Preview</h2>
+            <div class="email-container">
+                <div class="header">
+                    <img id="en-headerLogo1" src="https://www.img520.com/JEczek.png" alt="Top Left Logo" class="header-left-logo">
+                    <img id="en-headerLogo2" src="https://www.img520.com/bCH2bq.png" alt="Top Right JIEPEI" class="header-right-jiepei">
+                </div>
+                <div class="content-area" style="color:#999;">Email content here</div>
+                <div class="signature">
+                    <div class="signature-top">
+                        <div class="signature-avatar-wrap">
+                            <img id="en-signatureAvatar" src="https://www.img520.com/6I8yI8.png" alt="Avatar" class="signature-avatar">
+                        </div>
+                        <div class="signature-info" id="en-previewInfo">
+                            <h2>FAN BING CHENG</h2>
+                            <p>Brand Graphic Designer</p>
+                            <p>www.jiepei.com</p>
+                            <p>+86138-0000-0000</p>
+                            <p>zhangsan@company.com</p>
+                            <p>Room 1201,West Building of Block 2,Xintiandi Business Center,Gongshu District,Hangzhou City</p>
+                        </div>
+                    </div>
+                    <img id="en-signatureBanner" src="https://www.img520.com/UVztAG.png" alt="Bottom Banner" class="signature-banner">
+                </div>
+            </div>
+
+            <div style="padding:20px;">
+                <h3>Step 4: Copy Signature Code</h3>
+                <div class="code-area">
+                    <textarea id="en-finalCode" style="width:100%;height:200px;padding:10px;box-sizing:border-box;font-family:monospace;" readonly></textarea>
+                    <button id="copyBtnEn">Copy Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 语言切换功能
+        const switchBtns = document.querySelectorAll('.switch-btn');
+        const versionContainers = document.querySelectorAll('.version-container');
+        
+        switchBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const version = this.getAttribute('data-version');
+                
+                // 更新按钮状态
+                switchBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 显示对应版本内容
+                versionContainers.forEach(container => {
+                    container.classList.remove('active');
+                });
+                document.getElementById(`${version}-version`).classList.add('active');
+            });
+        });
+
+        // 中文版功能实现
+        (function() {
+            // 默认数据
+            const defaults = {
+                logo1: "https://www.img520.com/JEczek.png",
+                logo2: "https://www.img520.com/bCH2bq.png",
+                logo3: "https://www.img520.com/PpeGI7.png",
+                logo4: "https://www.img520.com/wKgZOx.png",
+                banner: "https://www.img520.com/J9gaD2.png",
+                name: "范冰晨",
+                job: "品牌平面设计师",
+                phone: "+86138-0000-0000",
+                email: "zhangsan@company.com",
+                address: "浙江省杭州市拱墅区新天地商务中心2幢西楼201室"
+            };
+            const data = {...defaults};
+
+            // 监听信息修改
+            const infoInputs = ['name', 'job', 'phone', 'email', 'address'];
+            infoInputs.forEach(key => {
+                document.getElementById(`zh-${key}`).addEventListener('input', function() {
+                    data[key] = this.value;
+                    updatePreview();
+                    generateCode();
+                });
+            });
+
+            // 监听图片上传
+            const uploadElements = [
+                {inputId:'logo1',previewId:'preview1',targetId:'headerLogo1'},
+                {inputId:'logo2',previewId:'preview2',targetId:'headerLogo2'},
+                {inputId:'logo3',previewId:'preview3',targetId:'signatureLogo3'},
+                {inputId:'logo4',previewId:'preview4',targetId:'signatureLogo4'},
+                {inputId:'banner',previewId:'previewBanner',targetId:'signatureBanner'}
+            ];
+            uploadElements.forEach(item => {
+                document.getElementById(`zh-${item.inputId}`).addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if(file){
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            document.getElementById(`zh-${item.previewId}`).src = event.target.result;
+                            document.getElementById(`zh-${item.previewId}`).style.display = 'block';
+                            document.getElementById(`zh-${item.targetId}`).src = event.target.result;
+                            data[item.inputId] = event.target.result;
+                            generateCode();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+
+            // 更新预览信息
+            function updatePreview() {
+                const infoEl = document.getElementById('zh-previewInfo');
+                infoEl.innerHTML = `
+                    <h2>${data.name}</h2>
+                    <p>${data.job}</p>
+                    <p>电话: ${data.phone}</p>
+                    <p>邮箱: ${data.email}</p>
+                    <p>地址: ${data.address}</p>
+                `;
+            }
+
+            // 生成代码
+            function generateCode() {
+                const code = `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>捷配电子邮签</title>
+    <style>
+        body{margin:0;padding:0;font-family:"Microsoft YaHei",Arial,sans-serif;background:#fff;}
+        .email-container{width:100%;max-width:680px;margin:0 auto;background:#fff;}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#fff;border-bottom:1px solid #f5f5f5;}
+        .header-left-logo{width:60px;height:auto;}
+        .header-right-jiepei{width:220px;height:auto;opacity:0.4;}
+        .content-area{padding:30px 40px;background:#fff;min-height:380px;}
+        .signature{padding:0 20px 20px;position:relative;}
+        .signature-top{display:flex;align-items:center;margin-bottom:10px;}
+        .signature-left-logo{width:100px;height:auto;margin-right:20px;}
+        .signature-info h2{margin:0;font-size:16px;color:#333;}
+        .signature-info p{margin:4px 0;font-size:13px;color:#666;}
+        .signature-right-bg-logo{position:absolute;top:20px;right:20px;width:180px;height:auto;opacity:0.3;z-index:0;}
+        .signature-banner{width:100%;max-width:640px;height:auto;border-radius:4px;margin-top:10px;z-index:1;position:relative;}
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="${data.logo1}" alt="上方左侧Logo" class="header-left-logo">
+            <img src="${data.logo2}" alt="上方右侧JIEPEI" class="header-right-jiepei">
+        </div>
+        <div class="content-area">
+            <!-- 填写邮件正文 -->
+        </div>
+        <div class="signature">
+            <img src="${data.logo4}" alt="下方右侧透明捷配" class="signature-right-bg-logo">
+            <div class="signature-top">
+                <img src="${data.logo3}" alt="下方左侧Logo" class="signature-left-logo">
+                <div class="signature-info">
+                    <h2>${data.name}</h2>
+                    <p>${data.job}</p>
+                    <p>电话: ${data.phone}</p>
+                    <p>邮箱: ${data.email}</p>
+                    <p>地址: ${data.address}</p>
+                </div>
+            </div>
+            <img src="${data.banner}" alt="底部Banner" class="signature-banner">
+        </div>
+    </div>
+</body>
+</html>
+                `.trim();
+                document.getElementById('zh-finalCode').value = code;
+            }
+
+            // 一键复制
+            document.getElementById('copyBtnZh').addEventListener('click', function() {
+                const codeText = document.getElementById('zh-finalCode');
+                codeText.select();
+                document.execCommand('copy');
+                this.textContent = '已复制!';
+                setTimeout(() => this.textContent = '一键复制', 2000);
+            });
+
+            // 初始化
+            updatePreview();
+            generateCode();
+        })();
+
+        // 英文版功能实现
+        (function() {
+            // 默认数据
+            const defaults = {
+                logo1: "https://www.img520.com/JEczek.png",
+                logo2: "https://www.img520.com/bCH2bq.png",
+                avatar: "https://www.img520.com/6I8yI8.png",
+                banner: "https://www.img520.com/UVztAG.png",
+                name: "FAN BING CHENG",
+                job: "Brand Graphic Designer",
+                website: "www.jiepei.com",
+                phone: "+86138-0000-0000",
+                email: "zhangsan@company.com",
+                address: "Room 1201,West Building of Block 2,Xintiandi Business Center,Gongshu District,Hangzhou City"
+            };
+            const data = {...defaults};
+
+            // 监听信息修改
+            const infoInputs = ['name', 'job', 'website', 'phone', 'email', 'address'];
+            infoInputs.forEach(key => {
+                document.getElementById(`en-${key}`).addEventListener('input', function() {
+                    data[key] = this.value;
+                    updatePreview();
+                    generateCode();
+                });
+            });
+
+            // 监听图片上传
+            const uploadElements = [
+                {inputId:'logo1',previewId:'preview1',targetId:'headerLogo1'},
+                {inputId:'logo2',previewId:'preview2',targetId:'headerLogo2'},
+                {inputId:'avatar',previewId:'previewAvatar',targetId:'signatureAvatar'},
+                {inputId:'banner',previewId:'previewBanner',targetId:'signatureBanner'}
+            ];
+            uploadElements.forEach(item => {
+                document.getElementById(`en-${item.inputId}`).addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if(file){
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            document.getElementById(`en-${item.previewId}`).src = event.target.result;
+                            document.getElementById(`en-${item.previewId}`).style.display = 'block';
+                            document.getElementById(`en-${item.targetId}`).src = event.target.result;
+                            data[item.inputId] = event.target.result;
+                            generateCode();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+
+            // 更新预览信息
+            function updatePreview() {
+                const infoEl = document.getElementById('en-previewInfo');
+                infoEl.innerHTML = `
+                    <h2>${data.name}</h2>
+                    <p>${data.job}</p>
+                    <p>${data.website}</p>
+                    <p>${data.phone}</p>
+                    <p>${data.email}</p>
+                    <p>${data.address}</p>
+                `;
+            }
+
+            // 生成代码
+            function generateCode() {
+                const code = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jiepei Email Signature</title>
+    <style>
+        body{margin:0;padding:0;font-family:Arial,sans-serif;background:#fff;}
+        .email-container{width:100%;max-width:680px;margin:0 auto;background:#fff;}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#fff;border-bottom:1px solid #f5f5f5;}
+        .header-left-logo{width:60px;height:auto;}
+        .header-right-jiepei{width:220px;height:auto;opacity:0.4;}
+        .content-area{padding:30px 40px;background:#fff;min-height:380px;}
+        .signature{padding:0 20px 20px;}
+        .signature-top{display:flex;align-items:center;margin-bottom:10px;}
+        .signature-avatar-wrap{width:80px;height:80px;border-radius:50%;overflow:hidden;margin-right:20px;}
+        .signature-avatar{width:100%;height:100%;object-fit:cover;}
+        .signature-info h2{margin:0;font-size:16px;color:#333;}
+        .signature-info p{margin:4px 0;font-size:13px;color:#666;}
+        .signature-banner{width:100%;max-width:640px;height:auto;border-radius:4px;margin-top:10px;}
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="${data.logo1}" alt="Top Left Logo" class="header-left-logo">
+            <img src="${data.logo2}" alt="Top Right JIEPEI" class="header-right-jiepei">
+        </div>
+        <div class="content-area">
+            <!-- Email Content Here -->
+        </div>
+        <div class="signature">
+            <div class="signature-top">
+                <div class="signature-avatar-wrap">
+                    <img src="${data.avatar}" alt="Avatar" class="signature-avatar">
+                </div>
+                <div class="signature-info">
+                    <h2>${data.name}</h2>
+                    <p>${data.job}</p>
+                    <p>${data.website}</p>
+                    <p>${data.phone}</p>
+                    <p>${data.email}</p>
+                    <p>${data.address}</p>
+                </div>
+            </div>
+            <img src="${data.banner}" alt="Bottom Banner" class="signature-banner">
+        </div>
+    </div>
+</body>
+</html>
+                `.trim();
+                document.getElementById('en-finalCode').value = code;
+            }
+
+            // 一键复制
+            document.getElementById('copyBtnEn').addEventListener('click', function() {
+                const codeText = document.getElementById('en-finalCode');
+                codeText.select();
+                document.execCommand('copy');
+                this.textContent = 'Copied!';
+                setTimeout(() => this.textContent = 'Copy Code', 2000);
+            });
+
+            // 初始化
+            updatePreview();
+            generateCode();
+        })();
+    </script>
+</body>
+</html>
